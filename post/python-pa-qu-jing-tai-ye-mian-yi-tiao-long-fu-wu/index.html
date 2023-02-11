@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Python爬取静态页面一条龙服务 | Thaumstrial&#39;s pages</title>
+<meta name="description" content="Hello, world!">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://thaumstrial.github.io//favicon.ico?v=1676108942290">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://thaumstrial.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://thaumstrial.github.io/">Thaumstrial&#39;s pages</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>Python爬取静态页面一条龙服务</h1>
+            <p class="article-meta">
+              2023-01-15
+              
+                <a href="https://thaumstrial.github.io/tag/eQvQ0xv47/" class="badge secondary">
+                  Python
+                </a>
+              
+                <a href="https://thaumstrial.github.io/tag/7gZ4Xnj95_/" class="badge secondary">
+                  爬虫
+                </a>
+              
+            </p>
+            
+            <div class="post-content" v-pre>
+              <p>最近在玩大型语言模型，需要收集互联网上的语料，虽然之前写过这样的代码，但又忘了，特此记录一下。<br>
+(￣m￣）</p>
+<!-- more -->
+<p><strong>使用fake-useragent库构造随机请求头</strong><br>
+由于一些网站在大量请求后会屏蔽爬虫，使用随机的请求头可以解决部分问题。<br>
+安装fake-useragent库</p>
+<pre><code class="language-cmd">pip install fake-useragent
+</code></pre>
+<p>构造随机请求头</p>
+<pre><code class="language-python">from fake_useragent import UserAgent
+ua = UserAgent()
+headers = {'UserAgent': ua.random}
+</code></pre>
+<p><strong>使用requests库获取页面</strong><br>
+安装requests库</p>
+<pre><code class="language-cmd">pip install requests
+</code></pre>
+<p>使用上文构造的随机请求头获取url页面</p>
+<pre><code class="language-python">import requests
+url = '目标网站链接'
+req = requests.get(headers=headers, url=url)
+html = req.text
+</code></pre>
+<p><strong>使用beautifulsoup4库提取页面中的元素</strong><br>
+安装beautifulsoup4库</p>
+<pre><code class="language-cmd">pip install beautifulsoup4
+</code></pre>
+<p>实例化一个Beautifulsoup</p>
+<pre><code class="language-python">from bs4 import BeautifulSoup
+bf = BeautifulSoup(html, 'lxml')
+</code></pre>
+<p>提取指定div标签</p>
+<pre><code class="language-python"># 获取查找到的第一个元素，否则返回None
+bf.find('div', class_='指定class')
+# 获取查找到的所有元素，否则返回None
+bf.find_all('div', class_='指定class')
+</code></pre>
+<p>提取指定p标签中的字符</p>
+<pre><code class="language-python">bf.find('p').string
+</code></pre>
+<p>提取指定a标签中的链接</p>
+<pre><code class="language-python">bf.find('a', id='指定id')[&quot;href&quot;]
+</code></pre>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+        </div>
+        
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="gitalk-container"></div>
+            </div>
+          
+
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://thaumstrial.github.io//images/avatar.png?v=1676108942290" class="no-responsive avatar">
+    <div class="text-muted">Hello, world!</div>
+    <div class="social-container">
+      
+        
+          <a href="https://github.com/thaumstrial" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/yi-pie-shu-xue-xia-de-bp-shen-jing-wang-luo/">一瞥数学下的BP神经网络</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/shi-yong-transformers-ku-nie-ge-mi-ni-yu-yan-mo-xing/">使用Transformers库捏个迷你语言模型</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/python-pa-qu-dong-tai-ye-mian-ban-tiao-long-fu-wu/">Python爬取动态页面半条龙服务</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/qian-chang-t5-encoder-mo-gai-ban-jiang-li-mo-xing/">浅尝T5-encoder魔改版奖励模型</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/2023-xin-nian-gan-xiang/">2023新年感想</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/python-pa-qu-jing-tai-ye-mian-yi-tiao-long-fu-wu/">Python爬取静态页面一条龙服务</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/about/">关于</a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://thaumstrial.github.io/tag/GXucoOfh8/" class="badge warning">
+          数学
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/zfYHHAZDPP/" class="badge secondary">
+          人工神经网络
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/fKP3qrgBya/" class="badge ">
+          机器学习
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/3XYMhfpAk/" class="badge warning">
+          NLP
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/eQvQ0xv47/" class="badge warning">
+          Python
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/7gZ4Xnj95_/" class="badge secondary">
+          爬虫
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+©2023 Thaumstrial. All rights reserved. | <a class="rss" href="https://thaumstrial.github.io//atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '1d08174da77f32abb88c',
+        clientSecret: '0834f612ea90e8ee1038482160da0b29874f023c',
+        repo: 'thaumstrial.github.io',
+        owner: 'thaumstrial',
+        admin: ['thaumstrial'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

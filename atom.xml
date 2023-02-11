@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://thaumstrial.github.io/</id>
+    <title>Thaumstrial&apos;s pages</title>
+    <updated>2023-02-11T09:49:06.175Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://thaumstrial.github.io/"/>
+    <link rel="self" href="https://thaumstrial.github.io/atom.xml"/>
+    <subtitle>Hello, world!</subtitle>
+    <logo>https://thaumstrial.github.io/images/avatar.png</logo>
+    <icon>https://thaumstrial.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2023, Thaumstrial&apos;s pages</rights>
+    <entry>
+        <title type="html"><![CDATA[一瞥数学下的BP神经网络]]></title>
+        <id>https://thaumstrial.github.io/post/yi-pie-shu-xue-xia-de-bp-shen-jing-wang-luo/</id>
+        <link href="https://thaumstrial.github.io/post/yi-pie-shu-xue-xia-de-bp-shen-jing-wang-luo/">
+        </link>
+        <updated>2023-02-10T08:31:13.000Z</updated>
+        <summary type="html"><![CDATA[<p>虽然使用现在的<a href="https://pypi.org/project/torch/">torch</a>，<a href="https://pypi.org/project/tensorflow/">tensorflow</a>，和<a href="https://pypi.org/project/paddlepaddle/">paddle</a>等Python第三方库可以很方便地构建人工神经网络模型。但了解神经网络的数学原理也同样重要，能帮助我们更好地提升模型，而不仅仅是对着屏幕扣脑袋，同时玄学调参或堆积算力。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>虽然使用现在的<a href="https://pypi.org/project/torch/">torch</a>，<a href="https://pypi.org/project/tensorflow/">tensorflow</a>，和<a href="https://pypi.org/project/paddlepaddle/">paddle</a>等Python第三方库可以很方便地构建人工神经网络模型。但了解神经网络的数学原理也同样重要，能帮助我们更好地提升模型，而不仅仅是对着屏幕扣脑袋，同时玄学调参或堆积算力。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用Transformers库捏个迷你语言模型]]></title>
+        <id>https://thaumstrial.github.io/post/shi-yong-transformers-ku-nie-ge-mi-ni-yu-yan-mo-xing/</id>
+        <link href="https://thaumstrial.github.io/post/shi-yong-transformers-ku-nie-ge-mi-ni-yu-yan-mo-xing/">
+        </link>
+        <updated>2023-02-09T08:08:37.000Z</updated>
+        <summary type="html"><![CDATA[<p>以T5模型为例，记录如何使用Transformers库从头训练一个迷你语言模型。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>以T5模型为例，记录如何使用Transformers库从头训练一个迷你语言模型。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Python爬取动态页面半条龙服务]]></title>
+        <id>https://thaumstrial.github.io/post/python-pa-qu-dong-tai-ye-mian-ban-tiao-long-fu-wu/</id>
+        <link href="https://thaumstrial.github.io/post/python-pa-qu-dong-tai-ye-mian-ban-tiao-long-fu-wu/">
+        </link>
+        <updated>2023-02-04T03:02:21.000Z</updated>
+        <summary type="html"><![CDATA[<p>使用Selenium可以方便地与动态网页交互，爬取一些传统爬虫难以获取的信息。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>使用Selenium可以方便地与动态网页交互，爬取一些传统爬虫难以获取的信息。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[浅尝T5-encoder魔改版奖励模型]]></title>
+        <id>https://thaumstrial.github.io/post/qian-chang-t5-encoder-mo-gai-ban-jiang-li-mo-xing/</id>
+        <link href="https://thaumstrial.github.io/post/qian-chang-t5-encoder-mo-gai-ban-jiang-li-mo-xing/">
+        </link>
+        <updated>2023-01-30T04:37:36.000Z</updated>
+        <summary type="html"><![CDATA[<p>原本想找一个现成的奖励模型，刚好有人建议用T5-encoder微调为奖励模型做实验，于是尝试了下，但实验以失败告终。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>原本想找一个现成的奖励模型，刚好有人建议用T5-encoder微调为奖励模型做实验，于是尝试了下，但实验以失败告终。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Python爬取静态页面一条龙服务]]></title>
+        <id>https://thaumstrial.github.io/post/python-pa-qu-jing-tai-ye-mian-yi-tiao-long-fu-wu/</id>
+        <link href="https://thaumstrial.github.io/post/python-pa-qu-jing-tai-ye-mian-yi-tiao-long-fu-wu/">
+        </link>
+        <updated>2023-01-15T04:12:04.000Z</updated>
+        <summary type="html"><![CDATA[<p>最近在玩大型语言模型，需要收集互联网上的语料，虽然之前写过这样的代码，但又忘了，特此记录一下。<br>
+(￣m￣）</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>最近在玩大型语言模型，需要收集互联网上的语料，虽然之前写过这样的代码，但又忘了，特此记录一下。<br>
+(￣m￣）</p>
+]]></content>
+    </entry>
+</feed>

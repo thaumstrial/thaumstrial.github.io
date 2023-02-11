@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>使用Transformers库捏个迷你语言模型 | Thaumstrial&#39;s pages</title>
+<meta name="description" content="Hello, world!">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://thaumstrial.github.io//favicon.ico?v=1676108942290">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://thaumstrial.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://thaumstrial.github.io/">Thaumstrial&#39;s pages</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>使用Transformers库捏个迷你语言模型</h1>
+            <p class="article-meta">
+              2023-02-09
+              
+                <a href="https://thaumstrial.github.io/tag/3XYMhfpAk/" class="badge ">
+                  NLP
+                </a>
+              
+                <a href="https://thaumstrial.github.io/tag/fKP3qrgBya/" class="badge ">
+                  机器学习
+                </a>
+              
+                <a href="https://thaumstrial.github.io/tag/eQvQ0xv47/" class="badge secondary">
+                  Python
+                </a>
+              
+            </p>
+            
+            <div class="post-content" v-pre>
+              <p>以T5模型为例，记录如何使用Transformers库从头训练一个迷你语言模型。</p>
+<!-- more -->
+<h1 id="准备训练">准备训练</h1>
+<h2 id="安装transformers库">安装Transformers库</h2>
+<pre><code class="language-cmd">pip install transformers
+</code></pre>
+<h2 id="配置t5模型config">配置T5模型Config</h2>
+<pre><code class="language-python">from transformers import T5Config
+t5_config = T5Config(
+    d_model=32,  
+    num_layers=2,
+    feed_forward_proj='gated-gelu', 
+    d_ff=32, 
+    d_kv=8,
+    num_heads=4,
+    num_decoder_layers=2,
+    decoder_start_token_id=0, 
+    max_length=512
+)
+</code></pre>
+<p><a href="https://huggingface.co/docs/transformers/model_doc/t5#transformers.T5Config">🤗 Hugging Face</a>详细描述了T5Config中每个参数的用途</p>
+<h2 id="创建t5forconditionalgeneration模型">创建T5ForConditionalGeneration模型</h2>
+<pre><code class="language-python">from transformers import T5ForConditionalGeneration
+model = T5ForConditionalGeneration(t5_config)
+</code></pre>
+<h2 id="使用预训练的t5tokenizer">使用预训练的T5Tokenizer</h2>
+<pre><code class="language-python">from transformers import T5Tokenizer
+# cach_dir可改变从🤗 Hugging Face下载文件的缓存目录
+tokenizer = T5Tokenizer.from_pretrained('google/flan-t5-base/', cach_dir='./models')
+</code></pre>
+<h2 id="自定义trainer类">自定义Trainer类</h2>
+<p>Transformers库封装了方便使用的Trainer类，如果有不同的需求，可以在Trainer类上重载部分方法</p>
+<pre><code class="language-python">from transformers import Trainer, PreTrainedModel, TrainingArguments
+
+
+class MiniT5Trainer(Trainer):
+    def __init__(
+            self,
+            model = None,
+            args = None,
+            **kwargs,
+    ):
+        super().__init__(model, args, **kwargs)
+
+
+    def compute_loss(self, model, inputs, return_outputs=False):
+        outputs = model(input_ids=inputs['input_ids'], labels=inputs['labels'])
+        # 可在此自定义训练时loss的计算
+        loss = outputs.loss
+        return (loss, outputs) if return_outputs else loss
+</code></pre>
+<h2 id="自定义dataset类">自定义Dataset类</h2>
+<p>自定义Dataset可以方便得传输给Trainer训练模型<br>
+使用了<a href="https://huggingface.co/datasets/squad">squad</a>数据集用于训练模型<br>
+将每条数据分为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi><mi>u</mi><mi>e</mi><mi>r</mi><mi>y</mi></mrow><annotation encoding="application/x-tex">Query</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">Q</span><span class="mord mathdefault">u</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>R</mi><mi>e</mi><mi>s</mi><mi>p</mi><mi>o</mi><mi>n</mi><mi>s</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">Response</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord mathdefault">p</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span></span></span></span>，给模型输入<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi><mi>u</mi><mi>e</mi><mi>r</mi><mi>y</mi></mrow><annotation encoding="application/x-tex">Query</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">Q</span><span class="mord mathdefault">u</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span></span>，训练模型输出<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>R</mi><mi>e</mi><mi>s</mi><mi>p</mi><mi>o</mi><mi>n</mi><mi>s</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">Response</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord mathdefault">p</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mord mathdefault">s</span><span class="mord mathdefault">e</span></span></span></span></p>
+<pre><code class="language-python">from datasets import load_dataset
+from torch.utils.data import Dataset
+class QARDataset(Dataset):
+    def __init__(self) -&gt; None:
+        super().__init__()
+        qar_dataset = load_dataset(&quot;squad&quot;, cache_dir='./mydatasets')
+  
+        self.queries = []
+        self.responses = []
+        for each in qar_dataset['train']:
+            title = each['title']
+            question = each['question']
+            answer = each['answers']['text'][0]
+            context = each['context']
+            query = title + '\n' + context + '\n' + question
+            response = answer
+
+            self.queries.append(query)
+            self.responses.append(response)
+
+    # 获取数据集长度
+    def __len__(self):
+        return len(self.queries)
+    # 获取数据集第index个元素
+    def __getitem__(self, index):
+        return self.queries[index], self.responses[index]
+</code></pre>
+<h2 id="自定义datacollator方法">自定义dataCollator方法</h2>
+<p>在训练时要对句子做Tokenize等预处理，可以通过一个方法封装这些功能并传给Trainer</p>
+<pre><code class="language-py">from dataclasses import dataclass
+from transformers import PreTrainedTokenizerBase
+from typing import Optional
+
+@dataclass
+class QARDatasetCollator:
+    tokenizer: PreTrainedTokenizerBase
+    max_length: Optional[int] = None
+
+    def __call__(self, batch):
+        input_ids = []
+        labels = []
+        for query, response in batch:
+            input_ids.append(query)
+            labels.append(response)
+
+        input_ids = self.tokenizer(input_ids, return_tensors=&quot;pt&quot;,
+                                   padding=True, max_length=self.max_length, truncation=True).input_ids
+        labels = self.tokenizer(labels, return_tensors=&quot;pt&quot;,
+                                padding=True, max_length=self.max_length, truncation=True).input_ids
+
+        return {&quot;input_ids&quot;: input_ids, &quot;labels&quot;: labels}```python
+</code></pre>
+<h1 id="开始训练">开始训练</h1>
+<h2 id="配置trainingarguments">配置TrainingArguments</h2>
+<pre><code class="language-py">from transformers import TrainingArguments
+
+training_args = TrainingArguments(
+    output_dir='./results',
+    num_train_epochs=4,
+    per_device_train_batch_size=128,
+    per_device_eval_batch_size=8,
+    logging_dir='./logs/rn_log',
+    learning_rate=1e-3,
+    save_steps=1000,
+    warmup_steps=500,
+    save_total_limit=4,
+    save_strategy='steps',
+    # 如果要从checkpoint回复训练，可在参数中加入如下设置
+    # resume_from_checkpoint='./results/checkpoint-34000'
+)
+</code></pre>
+<p><a href="https://huggingface.co/docs/transformers/v4.26.0/en/main_classes/trainer#transformers.TrainingArguments">🤗 Hugging Face Docs</a>详细描述了TrainingArguments中每个参数的用途</p>
+<h2 id="创建trainer实例">创建Trainer实例</h2>
+<pre><code class="language-python">collate_fn = QARDatasetCollator(tokenizer, max_length=512)
+train_dataset = QARDataset()
+
+trainer = MiniT5Trainer(
+    model=model,
+    data_collator=collate_fn,
+    train_dataset=train_dataset,
+    args=training_args
+)
+</code></pre>
+<p><a href="https://huggingface.co/docs/transformers/main_classes/trainer">🤗 Hugging Face</a>详细描述了Trainer中每个参数的用途</p>
+<h2 id="训练并保存模型">训练并保存模型</h2>
+<pre><code class="language-py">trainer.train()
+# 如果要从chekpoint继续训练，在调用train方法时加入下方参数
+# trainer.train(resume_from_checkpoint=True)
+trainer.save_model('./models/MiniT5')
+</code></pre>
+<h1 id="使用训练好的模型">使用训练好的模型</h1>
+<pre><code class="language-py">model = T5ForConditionalGeneration.from_pretrained('./models/MiniT5')
+input_ids = tokenizer(&quot;How are you?&quot;, return_tensors=&quot;pt&quot;).input_ids
+outputs = model.generate(input_ids)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+</code></pre>
+<hr>
+<p>目前Transformers库就用到了这些功能，后面可能会更新用到的新功能。</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://thaumstrial.github.io/post/python-pa-qu-dong-tai-ye-mian-ban-tiao-long-fu-wu/">
+                <h3 class="post-title">
+                  Python爬取动态页面半条龙服务
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="gitalk-container"></div>
+            </div>
+          
+
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://thaumstrial.github.io//images/avatar.png?v=1676108942290" class="no-responsive avatar">
+    <div class="text-muted">Hello, world!</div>
+    <div class="social-container">
+      
+        
+          <a href="https://github.com/thaumstrial" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/yi-pie-shu-xue-xia-de-bp-shen-jing-wang-luo/">一瞥数学下的BP神经网络</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/shi-yong-transformers-ku-nie-ge-mi-ni-yu-yan-mo-xing/">使用Transformers库捏个迷你语言模型</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/python-pa-qu-dong-tai-ye-mian-ban-tiao-long-fu-wu/">Python爬取动态页面半条龙服务</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/qian-chang-t5-encoder-mo-gai-ban-jiang-li-mo-xing/">浅尝T5-encoder魔改版奖励模型</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/2023-xin-nian-gan-xiang/">2023新年感想</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/python-pa-qu-jing-tai-ye-mian-yi-tiao-long-fu-wu/">Python爬取静态页面一条龙服务</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/about/">关于</a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://thaumstrial.github.io/tag/GXucoOfh8/" class="badge ">
+          数学
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/zfYHHAZDPP/" class="badge secondary">
+          人工神经网络
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/fKP3qrgBya/" class="badge warning">
+          机器学习
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/3XYMhfpAk/" class="badge ">
+          NLP
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/eQvQ0xv47/" class="badge ">
+          Python
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/7gZ4Xnj95_/" class="badge secondary">
+          爬虫
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+©2023 Thaumstrial. All rights reserved. | <a class="rss" href="https://thaumstrial.github.io//atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '1d08174da77f32abb88c',
+        clientSecret: '0834f612ea90e8ee1038482160da0b29874f023c',
+        repo: 'thaumstrial.github.io',
+        owner: 'thaumstrial',
+        admin: ['thaumstrial'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>浅尝T5-encoder魔改版奖励模型 | Thaumstrial&#39;s pages</title>
+<meta name="description" content="Hello, world!">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://thaumstrial.github.io//favicon.ico?v=1676108942290">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://thaumstrial.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://thaumstrial.github.io/">Thaumstrial&#39;s pages</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>浅尝T5-encoder魔改版奖励模型</h1>
+            <p class="article-meta">
+              2023-01-30
+              
+            </p>
+            
+            <div class="post-content" v-pre>
+              <p>原本想找一个现成的奖励模型，刚好有人建议用T5-encoder微调为奖励模型做实验，于是尝试了下，但实验以失败告终。</p>
+<!-- more -->
+<h1 id="目的">目的</h1>
+<p>尝试微调大型预训练语言模型T5的encoder部分，使用人工标注的数据集，每次给出一个问题和两个回答，通过人工标注的偏好，训练模型能正确分辨出回答哪个更好。</p>
+<h2 id="t5">T5</h2>
+<p>T5为Google发布的Transfer Text-to-Text Transformer简写(<a href="https://arxiv.org/abs/1910.10683">T5模型论文</a>)。基于Transformer架构Encoder-Decoder模型，使用类似BERT的训练方式，即将句子用replace span（小段替换）法替换，然后让模型还原出原本的句子。其创新的地方在于将大多数NLP任务转化为text-to-text形式，这样可以使得同一个模型在训练后能完成不同的NLP任务。</p>
+<h2 id="encoder">Encoder</h2>
+<p>Transformer架构(<a href="https://arxiv.org/abs/1706.03762">Transformer论文</a>)中Encoder部分，负责将一系列的词向量解码并提取内部信息。</p>
+<h2 id="reward-model">Reward-Model</h2>
+<p>参考自<a href="https://arxiv.org/abs/2203.02155">InstructGPT</a>，训练一个奖励模型评估语音模型输出的好坏。</p>
+<h2 id="datasets">Datasets</h2>
+<p><a href="https://huggingface.co/datasets/openai/webgpt_comparisons">webGPT</a><br>
+<a href="https://github.com/openai/summarize-from-feedback">HFsummary</a><br>
+<a href="https://huggingface.co/datasets/Dahoas/synthetic-instruct-gptj-pairwise/">synthetic-GPT-J</a></p>
+<h2 id="baseline">Baseline</h2>
+<p><a href="https://huggingface.co/google/electra-base-discriminator">Electra-Discriminator</a>在WebGPT验证集上60%的正确率</p>
+<h1 id="过程">过程</h1>
+<p>为方便表示，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">Q</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>A</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">A_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>A</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">A_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，分别表示人工标记的数据中，单条数据的问题，好的回答，坏的回答。<br>
+使用<a href="https://huggingface.co/google/flan-t5-base">T5-flan-small</a>预训练模型的encoder部分，再在此部分末尾加上一个MLP，使用contrasive Loss作为损失函数，使用Adam作为优化器。<br>
+使用了两种计算流程：</p>
+<ol>
+<li>将<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">Q</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span></span></span></span>拼接为一个句子，得到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>，并在<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">Q</span></span></span></span>,和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span></span></span></span>前分别加上表示问题与回答的向量，再使用模型对<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>编码得到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>S</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">S&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>。最后将<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>S</mi><mi>n</mi><mo mathvariant="normal">′</mo></msubsup></mrow><annotation encoding="application/x-tex">S_n&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.998892em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-2.4530000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>与<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>S</mi><mi>p</mi><mo mathvariant="normal">′</mo></msubsup></mrow><annotation encoding="application/x-tex">S_p&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.135em;vertical-align:-0.383108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-2.4530000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.383108em;"><span></span></span></span></span></span></span></span></span></span>交给MLP进行分类。</li>
+<li>将模型对回答编码后的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>A</mi><mi>p</mi><mo mathvariant="normal">′</mo></msubsup></mrow><annotation encoding="application/x-tex">A_p&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.135em;vertical-align:-0.383108em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.383108em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>A</mi><mi>n</mi><mo mathvariant="normal">′</mo></msubsup></mrow><annotation encoding="application/x-tex">A_n&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.998892em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>用1填充至对问题编码后的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>Q</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">Q&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>一样维度，使用MLP将<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>A</mi><mi>p</mi><mo mathvariant="normal">′</mo></msubsup></mrow><annotation encoding="application/x-tex">A_p&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.135em;vertical-align:-0.383108em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.383108em;"><span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>A</mi><mi>n</mi><mo mathvariant="normal">′</mo></msubsup></mrow><annotation encoding="application/x-tex">A_n&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.998892em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>，和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>Q</mi><mo mathvariant="normal">′</mo></msup></mrow><annotation encoding="application/x-tex">Q&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>映射到一致的维度得到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>A</mi><mi>p</mi><mrow><mo mathvariant="normal">′</mo><mo mathvariant="normal">′</mo></mrow></msubsup></mrow><annotation encoding="application/x-tex">A_p&#x27;&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.135em;vertical-align:-0.383108em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.383108em;"><span></span></span></span></span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>A</mi><mi>n</mi><mrow><mo mathvariant="normal">′</mo><mo mathvariant="normal">′</mo></mrow></msubsup></mrow><annotation encoding="application/x-tex">A_n&#x27;&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.998892em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>，和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>Q</mi><mrow><mo mathvariant="normal">′</mo><mo mathvariant="normal">′</mo></mrow></msup></mrow><annotation encoding="application/x-tex">Q&#x27;&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>，再对标准化后的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>A</mi><mi>p</mi><mrow><mo mathvariant="normal">′</mo><mo mathvariant="normal">′</mo></mrow></msubsup></mrow><annotation encoding="application/x-tex">A_p&#x27;&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.135em;vertical-align:-0.383108em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.383108em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>A</mi><mi>n</mi><mrow><mo mathvariant="normal">′</mo><mo mathvariant="normal">′</mo></mrow></msubsup></mrow><annotation encoding="application/x-tex">A_n&#x27;&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.998892em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span><span class="mord mtight">′</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span></span></span></span>分别对标准化后的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>Q</mi><mrow><mo mathvariant="normal">′</mo><mo mathvariant="normal">′</mo></mrow></msup></mrow><annotation encoding="application/x-tex">Q&#x27;&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>点积，得到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>r</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">r_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>r</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">r_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，这两个值就表示了回答与问题的关联度，如果<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>r</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">r_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>大于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>r</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">r_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，则表明模型预测正确。<br>
+模型在上述数据集中训练，并在WebGPT的验证集上检验模型的正确率。</li>
+</ol>
+<h1 id="结果">结果</h1>
+<table>
+<thead>
+<tr>
+<th>Model with MLP</th>
+<th>WebGPT Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T5-flan-small</td>
+<td>53.2%</td>
+</tr>
+<tr>
+<td>T5-flan-base</td>
+<td>48.3%</td>
+</tr>
+<tr>
+<td>T5-flan-large</td>
+<td>54.6%</td>
+</tr>
+<tr>
+<td>T5-flan-xxl</td>
+<td>47.9%</td>
+</tr>
+</tbody>
+</table>
+<p>50%左右的正确率表明了模型无效，随着模型参数增加效果也并未更好，整个模型的结构和训练方式是错误的。</p>
+<h1 id="想法">想法</h1>
+<p>训练过程中只是粗略地验证了下可行性，对于模型的超参和具体结构并未细致研究。<br>
+对于专门用于奖励模型，Transfomer架构本身的局限性可能就不适合判断两个回答的好坏，能取得更好效果的应该是类似Electra-Discriminator这样基于对抗式学习的模型。</p>
+<p>我认为，如果使用人类反馈训练模型，人犯的错误模型一定会学到并犯同样的错误。更好的方式应该还是无监督学习，通过一些方法计算出回答与问题之间的数学联系，来得出哪个回答更好的结论。堆积模型的尺寸和训练量更多是无奈之举，不但难以下放的普通用户中，而且当计算机算力提升和内存提升势微时，模型的发展势头必然受损严重。更多的，还是得靠数学上的突破。</p>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://thaumstrial.github.io/post/python-pa-qu-jing-tai-ye-mian-yi-tiao-long-fu-wu/">
+                <h3 class="post-title">
+                  Python爬取静态页面一条龙服务
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="gitalk-container"></div>
+            </div>
+          
+
+          
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://thaumstrial.github.io//images/avatar.png?v=1676108942290" class="no-responsive avatar">
+    <div class="text-muted">Hello, world!</div>
+    <div class="social-container">
+      
+        
+          <a href="https://github.com/thaumstrial" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/yi-pie-shu-xue-xia-de-bp-shen-jing-wang-luo/">一瞥数学下的BP神经网络</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/shi-yong-transformers-ku-nie-ge-mi-ni-yu-yan-mo-xing/">使用Transformers库捏个迷你语言模型</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/python-pa-qu-dong-tai-ye-mian-ban-tiao-long-fu-wu/">Python爬取动态页面半条龙服务</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/qian-chang-t5-encoder-mo-gai-ban-jiang-li-mo-xing/">浅尝T5-encoder魔改版奖励模型</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/2023-xin-nian-gan-xiang/">2023新年感想</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/python-pa-qu-jing-tai-ye-mian-yi-tiao-long-fu-wu/">Python爬取静态页面一条龙服务</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://thaumstrial.github.io/post/about/">关于</a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+        <a href="https://thaumstrial.github.io/tag/GXucoOfh8/" class="badge ">
+          数学
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/zfYHHAZDPP/" class="badge warning">
+          人工神经网络
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/fKP3qrgBya/" class="badge warning">
+          机器学习
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/3XYMhfpAk/" class="badge secondary">
+          NLP
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/eQvQ0xv47/" class="badge secondary">
+          Python
+        </a>
+      
+        <a href="https://thaumstrial.github.io/tag/7gZ4Xnj95_/" class="badge secondary">
+          爬虫
+        </a>
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+©2023 Thaumstrial. All rights reserved. | <a class="rss" href="https://thaumstrial.github.io//atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '1d08174da77f32abb88c',
+        clientSecret: '0834f612ea90e8ee1038482160da0b29874f023c',
+        repo: 'thaumstrial.github.io',
+        owner: 'thaumstrial',
+        admin: ['thaumstrial'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
