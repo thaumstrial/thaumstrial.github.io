@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>低网络成本搭建Minecraft服务器 | Thaumstrial&#39;s Pages</title>
+<meta name="description" content="不神奇也不有趣的网站">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://thaumstrial.github.io/favicon.ico?v=1690695588562">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://thaumstrial.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://thaumstrial.github.io">
+        <img class="avatar" src="https://thaumstrial.github.io/images/avatar.png?v=1690695588562" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://thaumstrial.github.io">
+        <h1 class="site-title">Thaumstrial&#39;s Pages</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">低网络成本搭建Minecraft服务器</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2023-07-30</span>
+            
+          </div>
+          <div class="post-content" v-pre>
+            <p>有多个小伙伴想要一起玩Minecraft时，搭建服务器不可避免。<br>
+除开硬件成本下，网络成本对腐竹也是很大的考验，接下来提供可行的思路和我的解决方案。</p>
+<h1 id="使用自己的电脑开服内网穿透">使用自己的电脑开服+内网穿透</h1>
+<p>在自己电脑上运行MC，开放到局域网，再使用第三方内网穿透工具，如花生壳，sakura等。<br>
+可以实现几乎免费开服，但相应的，不稳定的延迟，你的电脑必须24小时在线，阻止了你和基友畅玩MC。<br>
+不过对手残党和学生党开几个人的服务器还是相当友好，b站上也有很多教程。</p>
+<h1 id="vps开服">VPS开服</h1>
+<p>使用私有的云服务器开服，网络体验可以得到极大改善，但致命的问题就是：<br>
+非常贵！<br>
+而且我开的是工业服务器，对服务器计算能力要求高，有钱买强劲的VPS，不如多买几个烂点的VPS做代理分流玩家划算。</p>
+<h1 id="自己电脑vps代理">自己电脑+VPS代理</h1>
+<p>在自己电脑上运行MC，买一个云服务器使用内网穿透。<br>
+这个方案是我一开始使用的，截至2023年7月30日，腾讯的轻量云大概60元一个月，4mbps的带宽和稳定的连接可以让多个基友畅玩MC，但服务器-&gt;云-&gt;客户端，客户端-&gt;云-&gt;服务器这种传输路线会导致较大延迟。<br>
+搭建内网穿透服务器并使用可以查看这篇教程<a href="https://blog.csdn.net/jamesdodo/article/details/120970420">jamesdodo 内网穿透工具 FRP Linux 环境搭建安装</a></p>
+<p>我使用这个方案开服开了半年多，但随着人数从几个人增加到最大10多个人同时在线，4mbps的小水管已经快被撑爆了。想要更大的带宽，得氪更多金，虽然有好心玩家提供的赞助，不过这样服务器就没法作为公益服长远维持下去了。<br>
+然而，最离谱的是服务器不知道为什么被Ddos攻击了：<br>
+<img src="https://thaumstrial.github.io/post-images/1690694258278.png" alt="" loading="lazy"><br>
+太惨了，开个公益服还会一直被DDoS。首先考虑使用Cloudflare套上，应该能把Ddos扛下来，但发现套上Cloudflare后延迟高得离谱。买高防包又贵，看着玩家就要跑完，我不得不尝试新的办法。</p>
+<h1 id="自己电脑p2p组网联机">自己电脑+P2P组网联机</h1>
+<p>把玩家的电脑和服务器构建一个p2p网络，使用的是<a href="https://www.openp2p.cn/">OpenP2P</a>，使用公共的转发服务，甚至可以把VPS的钱剩下来。<br>
+但还是有很大的问题，对于手残的玩家，需要配置p2p客户端很麻烦，增加了进服门槛。同时使用公共转发的p2p联机需要等上一会儿扫描才能建立，消耗玩家耐心，而且p2p同样不稳定，可能有的人延迟很低，有的人网络体验就不行了。<br>
+于是在尝试了一下p2p联机后，我把这个作为备份方案，如果DDoS还继续下去，或许只能试试这个了。不过我暂时把目光移向了IPv6。</p>
+<h1 id="自己电脑ipv6">自己电脑+IPv6</h1>
+<p>现在据说是大力推行ipv6，每家都很好搞到公网ipv6地址，但ipv6不能向下兼容ipv4，所以有玩家只有ipv4地址的话就不能连接到服务器了，去调查了一圈，发现大部分人都不能进入ipv6网络。<br>
+虽然可以使用类似4in6的技术让纯ipv4机器能连接到纯ipv6，但也要中转服务器。<br>
+无论如何，看着被DDoS打得奄奄一息的服务器，先试试吧。</p>
+<p>去问了广电运营商，说ipv6还在测试？？？向工信部投诉也没用了，换了移动运营商，不过宽带师傅也不懂ipv6这个新玩意，折腾了半天自己弄了好了。<br>
+可以参考<a href="https://zhuanlan.zhihu.com/p/146528034">移动宽带如何获取IPV6地址 - 知乎</a><br>
+记得一定要找宽带师傅要光猫的超级管理密码，和拨号上网密码！<br>
+在服务器的电脑获得了公网ipv6后玩家就可以通过[ipv6]:port来直连服务器啦。</p>
+<p>比如在多人游戏中输入[2409:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX:XXXX]:25565（注意是公网的ipv6，别把局域网的ipv6输入进去了）<br>
+ipv6就是给力速度是真的快，由于从服务器-&gt;云-&gt;客户端变成了服务器-&gt;客户端的连接方式，延迟能显著降低。而且一般100兆的家庭宽带能有20mbps左右的上行，轻松承载很多玩家。</p>
+<p>不过大部分玩家还是不支持ipv6网络，所以仍然作为备用方案2号。</p>
+<h1 id="自己电脑nat打洞">自己电脑+NAT打洞</h1>
+<h2 id="设置nat1">设置NAT1</h2>
+<p>正当我一筹莫展的时候，在配置ipv6时学习到了4中NAT类型，可以参考这篇文章<a href="https://blog.csdn.net/wgl307293845/article/details/120450626">wellnw 路由器四种NAT</a>。发现如果家里的网络是NAT1，可以实现ip+固定端口打洞，不就能能公网直连MC服务器了吗？<br>
+多亏有人已经提供了工具<a href="https://github.com/heiher/natmap">github natmap</a><br>
+但是natmap只支持linux和freeBDS操作系统，就算是用windows+WSL也有兼容问题，参考<a href="https://github.com/heiher/natmap/issues/8">搞个windows版本? issues 8</a>。如果是只有windows操作系统的电脑，得整个linux虚拟机（可以使用VMware安装），或者在别的linux机器上运行。<br>
+由于家里的PC电脑运行的是<a href="https://www.proxmox.com/en/proxmox-virtual-environment/overview">PVE</a>（非常推荐这个，如果要在服务器上开很多个虚拟机用于不同服务），Minecraft服务器运行在一个Windows操作系统上，再开了一个Ubuntu虚拟机作为代理到公网的服务器。<br>
+查看linux服务器的NAT类型，如果为NAT1可以少折腾点，参考<a href="https://blog.csdn.net/u012176686/article/details/116455566">835705904 Linux设备检测外部网络NAT类型</a><br>
+如果发现linux服务器所在不为NAT1，进行下面操作：路由器把linux服务器ip地址放入DMZ区域，打开upnp。（有一定被网络攻击的风险，请确保你明白在做什么并根据专业指导做好相关防护）。参考<a href="https://blog.csdn.net/qq_46648437/article/details/113747066">Toptab 网络类型NAT3改NAT1</a><br>
+确保检测linux服务器为NAT1后，就可以愉快的打洞到公网啦。</p>
+<h2 id="natmap打洞">NATMAP打洞</h2>
+<p>前往<a href="https://github.com/heiher/natmap/releases">natmap release</a>下载适用于linux操作系统的版本。<br>
+把程序改名为natmap，执行</p>
+<pre><code class="language-ssh">natmap -s stunserver.stunprotocol.org -h qq.com -b 123 -t 192.168.1.201 -p 25565
+</code></pre>
+<p>stunserver.stunprotocol.org为stun服务器，有可能会抽风，可以换成别的stun服务器<br>
+qq.com是http服务器<br>
+192.168.1.201为跟linux服务器同一网络下，MC服务器的局域网ip地址，25565为Minecraft服务器打开的端口，默认为25565，可以在server.properties中被修改。<br>
+实现原理就不多介绍了，进阶用法或感兴趣的伙伴可以参考官方wiki<a href="https://github.com/heiher/natmap/wiki">natmap wiki</a><br>
+运行完上面的命令，成功的话就会返回公网ip地址+端口，到时候使用这个ip+端口就可以直连服务器了。<br>
+于是服务器有10多个玩家都不卡了233。</p>
+<h2 id="ddns">DDNS</h2>
+<p>但基友们玩得正高兴的时候，突然全体掉线了，难道又被DDos攻击了？家用网络有着运营商级别的防火墙，就算被打了家用的公共的ip也会被切换。<br>
+对，打洞到公网的ip是被切换了，但不是由DDos引起的。家用网络的公网ip是动态的，可能几天或者时不时就换了。如果每次公网ip被切换了，要再次向基友们公布新的服务器地址也太麻烦了，刚好有DDNS这个技术来解决问题。我花了7块钱从腾讯云上买了1年的域名（腾讯云是不是该给我打钱）<br>
+这是目前唯一的网络开销（不算家里网费的话）。<br>
+使用<a href="https://github.com/imki911/ArDNSPod/tree/master">github ArDNSPod</a>，里面有详细介绍，可以通过一个sh脚本更新dns，再配合linux的corn定时任务，参考<a href="https://blog.csdn.net/qq_51514930/article/details/124269555">linux corn使用教程</a>。定时地执行这个脚本，我设置的是半小时执行一次。这样公网ip偶尔变动了，也可以通过域名动态解析到服务器的公网ip上。<br>
+终于，使用域名:端口号，就能和许多人畅快联机啦，在能够享受到很好的网络体验同时，花的钱又少。</p>
+<h1 id="结束">结束</h1>
+<p>由于涉及到太多东西，具体的操作难以详细描述，比如怎么安装PVE。怎么配置虚拟机，怎么弄DNS，NAT1234又是什么鬼，将持续更新新的文章补充细节。如果有任何疑问也欢迎提出来讨论。</p>
+
+          </div>
+        </div>
+
+        
+      </div>
+
+      
+        
+          <div id="gitalk-container"></div>
+        
+
+        
+      
+
+      <div class="site-footer">
+  <div class="slogan">不神奇也不有趣的网站</div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/thaumstrial/" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://thaumstrial.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '1d08174da77f32abb88c',
+        clientSecret: 'c9945a4c4d6365253325cfa02a066e874b2b8aa0',
+        repo: 'thaumstrial.github.io',
+        owner: 'thaumstrial',
+        admin: ['thaumstrial'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
