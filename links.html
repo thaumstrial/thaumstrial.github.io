@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Links</title>
+
+        <script>
+            function loadNav() {
+                fetch("nav.html")
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById("navbar").innerHTML = html;
+                    });
+            }
+        </script>
+    </head>
+    <body onload="loadNav()">
+        <div id="navbar"></div>
+
+        <p>开发者</p>
+        <ul>
+            <li><a href="https://elytra.dev/" target="_blank">Dreamtowards: VoxelGameDev, Graphics, PL</a></li>
+            <li><a href="https://github.com/awalwashig" target="_blank">awaわ</a></li>
+            <li><a href="https://github.com/Luna5ama" target="_blank">Luna5ama</a></li>
+            <li><a href="https://saurlax.com/" target="_blank">saurlax</a></li>
+        </ul>
+    </body>
+</html>
