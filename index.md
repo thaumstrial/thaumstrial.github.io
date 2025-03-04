@@ -13,6 +13,9 @@ hero:
     - theme: alt
       text: API Examples
       link: /api-examples
+    - theme: alt
+      text: Math
+      link: /math/linear-algebra.md
 
 features:
   - title: Feature A
