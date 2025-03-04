@@ -22,6 +22,9 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/thaumstrial' }
-    ]
+    ],
+    search: {
+      provider: 'local'
+    }
   }
 })
