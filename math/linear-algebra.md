@@ -274,9 +274,9 @@ the null space of $A$, and the orthogonal complement of the column space of $A$ 
 the null space of $A^T$ : $(\text{Row}\,A)^\perp=\text{Nul}\,A$ and $(\text{Col}\,A)^\perp=\text{Nul}\,A^T$
 
 Let $A=\begin{bmatrix}
-\mathbf{a}_1 &
-\mathbf{a}_2 & 
-\cdots & 
+\mathbf{a}_1 \\
+\mathbf{a}_2 \\
+\vdots \\
 \mathbf{a}_n
 \end{bmatrix}$, and $\mathbf{x} \in \text{Nul}\,A$.
 
@@ -298,3 +298,13 @@ $$
     \end{bmatrix} \\
 \end{align*}
 $$
+
+$$
+\mathbf{a}_i \mathbf{x} = 0
+$$
+
+Because $\mathbf{a}_i$ is the row vector and $\mathbf{x}$ is the column vector, $\mathbf{a}_i \mathbf{x}$ is the the inner product of the row vector and any vector from Null Space, resulting the linear combinations of row vector are also perpendicular to Null Space.
+
+Thus, $\text{Row}\,A=(\text{Nul}\,A)^\perp$, namely $(\text{Row}\,A)^\perp=\text{Nul}\,A$.
+
+And we can get $(\text{Col}\,A)^\perp=\text{Nul}\,A^T$, by transposing both sides.
