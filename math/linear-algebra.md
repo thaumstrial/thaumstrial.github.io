@@ -267,3 +267,34 @@ Thus, each $\mathbf{p}$ is an eigenvector of $A$.
 Because $n$ eigenvectors of $A$ are linearly independet, $P$ is invertible.
 
 $A=PBP^{-1}$ is indeed valid.
+
+## 6.1 Theorem 3
+> Let $A$ be an $m \times n$ matrix. The orthogonal complement of the row space of $A$ is
+the null space of $A$, and the orthogonal complement of the column space of $A$ is
+the null space of $A^T$ : $(\text{Row}\,A)^\perp=\text{Nul}\,A$ and $(\text{Col}\,A)^\perp=\text{Nul}\,A^T$
+
+Let $A=\begin{bmatrix}
+\mathbf{a}_1 &
+\mathbf{a}_2 & 
+\cdots & 
+\mathbf{a}_n
+\end{bmatrix}$, and $\mathbf{x} \in \text{Nul}\,A$.
+
+By the definition of Null Space,
+
+$$
+\begin{align*}
+    A\textbf{x} &= \textbf{0} \\
+    \begin{bmatrix}
+        \mathbf{a}_1 \\
+        \mathbf{a}_2 \\
+        \vdots \\
+        \mathbf{a}_n
+    \end{bmatrix}\textbf{x} &= \begin{bmatrix}
+        0 \\
+        0 \\
+        \vdots \\
+        0
+    \end{bmatrix} \\
+\end{align*}
+$$
