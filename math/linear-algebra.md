@@ -350,3 +350,140 @@ $$
 $$
 ### c. $(U\mathbf{x})\boldsymbol{\cdot}(U\mathbf{y})=0\iff\mathbf{x}\boldsymbol{\cdot}\mathbf{y}=0$
 This is just a special case of b.
+
+## 6.3 Theorem 8
+> The Orthogonal Decomposition Theorem: 
+Let $W$ be a subspace of $\mathbb{R}^n$. Then each $\mathbf{y}$ in $\mathbb{R}^n$ can be written uniquely in the form
+$\mathbf{y}=\mathbf{\hat{y}}+\mathbf{z}$
+(1)
+where $\mathbf{\hat{y}}$ is in $W$ and $z$ is in $W^\perp$. In fact, if $\left\{\mathbf{u}_1, \ldots, \mathbf{u}_p \right\}$ is any orthogonal basis of
+$W$ , then $\mathbf{\hat{y}} = \frac{\mathbf{y}\boldsymbol{\cdot}\mathbf{u}_1}{\mathbf{u}_1\boldsymbol{\cdot}\mathbf{u}_1}\mathbf{u}_1+\ldots+\frac{\mathbf{y}\boldsymbol{\cdot}\mathbf{u}_p}{\mathbf{u}_p\boldsymbol{\cdot}\mathbf{u}_p}\mathbf{u}_p$ (2) and $\mathbf{z}=\mathbf{y}-\mathbf{\hat{y}}$.
+
+The textbook provides the proof. Therefore, we only show how to derive formula (2) here.
+
+$$
+\begin{align*}
+    (\mathbf{y}-\mathbf{\hat{y}})\boldsymbol{\cdot}\mathbf{\hat{y}} &= 0 \\
+    \mathbf{y}\boldsymbol{\cdot}\mathbf{\hat{y}} - \mathbf{\hat{y}}\boldsymbol{\cdot}\mathbf{\hat{y}} &= 0 \\
+    \mathbf{y}\boldsymbol{\cdot}\mathbf{\hat{y}} &= \mathbf{\hat{y}}\boldsymbol{\cdot}\mathbf{\hat{y}}
+\end{align*}
+$$
+
+Let $\mathbf{\hat{y}}=c_1\mathbf{u}_1+\cdots+c_p\mathbf{u}_p$.
+
+Namely,
+
+$$
+\begin{align*}
+    \mathbf{\hat{y}} 
+    &= 
+    \begin{bmatrix}
+        \mathbf{u}_1 & \mathbf{u}_2 & \cdots & \mathbf{u}_p
+    \end{bmatrix}
+    \begin{bmatrix}
+        c_{1} \\
+        c_{2} \\
+        \vdots \\
+        c_{p}
+    \end{bmatrix}
+\end{align*}
+$$
+
+$$
+\begin{align*}
+    \mathbf{y}\boldsymbol{\cdot}\mathbf{\hat{y}} =& \mathbf{y}^T\mathbf{\hat{y}} \\
+    =&
+
+\mathbf{y}^T
+    \begin{bmatrix}
+        \mathbf{u}_1 & \mathbf{u}_2 & \cdots & \mathbf{u}_p
+    \end{bmatrix}
+    \begin{bmatrix}
+        c_{1} \\
+        c_{2} \\
+        \vdots \\
+        c_{p}
+    \end{bmatrix}
+\end{align*}
+$$
+$$
+\begin{align*}
+    \mathbf{\hat{y}}\boldsymbol{\cdot}\mathbf{\hat{y}} 
+    =& 
+    (c_1\mathbf{u}_1+\cdots+c_p\mathbf{u}_p)
+    \boldsymbol{\cdot}
+    (c_1\mathbf{u}_1+\cdots+c_p\mathbf{u}_p) \\
+    =& 
+    (c_1)^2
+    \mathbf{u}_1\boldsymbol{\cdot}\mathbf{u}_1
+    +
+    \cdots
+    +
+    (c_p)^2\mathbf{u}_p\boldsymbol{\cdot}\mathbf{u}_p \\
+    =&
+    \begin{bmatrix}
+        c_1(\mathbf{u}_1\boldsymbol{\cdot}\mathbf{u}_1) &
+        \cdots &
+        c_p(\mathbf{u}_p\boldsymbol{\cdot}\mathbf{u}_p)
+    \end{bmatrix}
+    \begin{bmatrix}
+        c_{1} \\
+        c_{2} \\
+        \vdots \\
+        c_{p}
+    \end{bmatrix}
+\end{align*}
+$$
+Apply $\mathbf{y}\boldsymbol{\cdot}\mathbf{\hat{y}} = \mathbf{\hat{y}}\boldsymbol{\cdot}\mathbf{\hat{y}}$:
+$$
+\begin{align*}
+    &
+    \mathbf{y}^T
+    \begin{bmatrix}
+        \mathbf{u}_1 & \mathbf{u}_2 & \cdots & \mathbf{u}_p
+    \end{bmatrix}
+    \begin{bmatrix}
+        c_{1} \\
+        c_{2} \\
+        \vdots \\
+        c_{p}
+    \end{bmatrix}\\
+    =&
+    \begin{bmatrix}
+        c_1(\mathbf{u}_1\boldsymbol{\cdot}\mathbf{u}_1) &
+        \cdots &
+        c_p(\mathbf{u}_p\boldsymbol{\cdot}\mathbf{u}_p) &
+    \end{bmatrix}
+    \begin{bmatrix}
+        c_{1} \\
+        c_{2} \\
+        \vdots \\
+        c_{p}
+    \end{bmatrix} \\
+    &
+    \mathbf{y}^T
+    \begin{bmatrix}
+        \mathbf{u}_1 & \mathbf{u}_2 & \cdots & \mathbf{u}_p
+    \end{bmatrix}\\
+    =&
+    \begin{bmatrix}
+        c_1(\mathbf{u}_1\boldsymbol{\cdot}\mathbf{u}_1) &
+        \cdots &
+        c_p(\mathbf{u}_p\boldsymbol{\cdot}\mathbf{u}_p)
+    \end{bmatrix}
+\end{align*}
+$$
+By the definition of matrix multiplication,
+$$
+\begin{align*}
+    c_i(\mathbf{u}_i\boldsymbol{\cdot}\mathbf{u}_i)
+    &=
+    \mathbf{y}^T
+    \mathbf{u}_i \\
+    &=
+    \mathbf{y}\boldsymbol{\cdot}\mathbf{u}_i \\
+    c_i
+    &= \frac{\mathbf{y}\boldsymbol{\cdot}\mathbf{u}_i}{\mathbf{u}_i\boldsymbol{\cdot}\mathbf{u}_i}
+\end{align*}
+$$
+$i$ ranges from $1$ to $p$.
