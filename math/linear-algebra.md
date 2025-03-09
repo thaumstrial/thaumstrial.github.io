@@ -308,3 +308,45 @@ Because $\mathbf{a}_i$ is the row vector and $\mathbf{x}$ is the column vector, 
 Thus, $\text{Row}\,A=(\text{Nul}\,A)^\perp$, namely $(\text{Row}\,A)^\perp=\text{Nul}\,A$.
 
 And we can get $(\text{Col}\,A)^\perp=\text{Nul}\,A^T$, by transposing both sides.
+
+## 6.2 Theorem 7
+> Let $U$ be an $m \times n$ matrix with orthonormal columns, and let $x$ and $y$ be in $\mathbb{R}^n$.
+Then
+### a. $\left \lVert U\mathbf{x} \right \rVert = \left \lVert \mathbf{x} \right \rVert$
+$$
+\begin{align*}
+    \left \lVert U\mathbf{x} \right \rVert
+    &= 
+    \sqrt{U\mathbf{x}\boldsymbol{\cdot} U\mathbf{x}} \\
+    &= \sqrt{(U\mathbf{x})^TU\mathbf{x}} \\
+    &= \sqrt{U^T\mathbf{x}^TU\mathbf{x}} \\
+    &= \sqrt{U^TU\mathbf{x}^T\mathbf{x}} \\
+    &= \sqrt{I\mathbf{x}^T\mathbf{x}} \\
+    &= \sqrt{\mathbf{x}^T\mathbf{x}}
+\end{align*}
+$$
+$$
+\begin{align*}
+    \left \lVert \mathbf{x} \right \rVert
+    &= \sqrt{\mathbf{x}\boldsymbol{\cdot}\mathbf{x}} \\
+    &= \sqrt{\mathbf{x}^T\mathbf{x}}
+\end{align*}
+$$
+### b. $(U\mathbf{x})\boldsymbol{\cdot}(U\mathbf{y})=\mathbf{x}\boldsymbol{\cdot}\mathbf{y}$
+$$
+\begin{align*}
+    (U\mathbf{x})\boldsymbol{\cdot}(U\mathbf{y})
+    &= (U\mathbf{x})^T(U\mathbf{y}) \\
+    &= U^T\mathbf{x}^T(U\mathbf{y}) \\
+    &= U^TU\mathbf{x}^T\mathbf{y} \\
+    &= I\mathbf{x}^T\mathbf{y} \\
+    &= \mathbf{x}^T\mathbf{y} \\
+\end{align*}
+$$
+$$
+\begin{align*}
+    \mathbf{x}\boldsymbol{\cdot}\mathbf{y} &= \mathbf{x}^T\mathbf{y}
+\end{align*}
+$$
+### c. $(U\mathbf{x})\boldsymbol{\cdot}(U\mathbf{y})=0\iff\mathbf{x}\boldsymbol{\cdot}\mathbf{y}=0$
+This is just a special case of b.
