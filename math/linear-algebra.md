@@ -487,3 +487,38 @@ $$
 \end{align*}
 $$
 $i$ ranges from $1$ to $p$.
+
+## 6.5 Theorem 15
+
+> Given an $m \times n$ matrix $A$ with linearly independent columns, let $A = QR$ be a
+QR factorization of A as in Theorem 12. Then, for each $\mathbf{b}$ in $\mathbb{R}^m$, the equation $A\mathbf{x}=\mathbf{b}$ has a unique least-squares solution, given by
+$\mathbf{\hat{x}}=R^{-1}Q^T\mathbf{\hat{b}}$
+
+The textbook provides the proof.
+We only show how to derive formula (6) here.
+
+$$
+\begin{align*}
+    A\mathbf{\hat{x}} 
+    =& \mathbf{\hat{b}} \\
+    
+    (QR)\mathbf{\hat{x}}
+    =& \mathbf{\hat{b}} \\
+
+    (QR)^{-1}(QR)\mathbf{\hat{x}}
+    =& (QR)^{-1}\mathbf{\hat{b}} \\
+
+    I\mathbf{\hat{x}}
+    =& R^{-1}Q^{-1}\mathbf{\hat{b}} \\
+
+    \mathbf{\hat{x}}
+    =& R^{-1}Q^T\mathbf{\hat{b}} \\
+\end{align*}
+$$
+Because $Q$ has orthonormal columns,
+$$
+\begin{align*}
+    Q^TQ=I=Q^{-1}Q \\
+    Q^T=Q^{-1}
+\end{align*}
+$$
