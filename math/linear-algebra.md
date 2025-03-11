@@ -319,9 +319,9 @@ $$
     &= 
     \sqrt{U\mathbf{x}\boldsymbol{\cdot} U\mathbf{x}} \\
     &= \sqrt{(U\mathbf{x})^TU\mathbf{x}} \\
-    &= \sqrt{U^T\mathbf{x}^TU\mathbf{x}} \\
-    &= \sqrt{U^TU\mathbf{x}^T\mathbf{x}} \\
-    &= \sqrt{I\mathbf{x}^T\mathbf{x}} \\
+    &= \sqrt{\mathbf{x}^TU^TU\mathbf{x}} \\
+    &= \sqrt{\mathbf{x}^T(U^TU)\mathbf{x}} \\
+    &= \sqrt{\mathbf{x}^TI\mathbf{x}} \\
     &= \sqrt{\mathbf{x}^T\mathbf{x}}
 \end{align*}
 $$
@@ -337,9 +337,9 @@ $$
 \begin{align*}
     (U\mathbf{x})\boldsymbol{\cdot}(U\mathbf{y})
     &= (U\mathbf{x})^T(U\mathbf{y}) \\
-    &= U^T\mathbf{x}^T(U\mathbf{y}) \\
-    &= U^TU\mathbf{x}^T\mathbf{y} \\
-    &= I\mathbf{x}^T\mathbf{y} \\
+    &= \mathbf{x}^TU^TU\mathbf{y} \\
+    &= \mathbf{x}^T(U^TU)\mathbf{y} \\
+    &= \mathbf{x}^TI\mathbf{y} \\
     &= \mathbf{x}^T\mathbf{y} \\
 \end{align*}
 $$
