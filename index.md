@@ -8,8 +8,8 @@ hero:
   tagline: Notes, Sketches, and Unfinished Ideas
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Game
+      link: /game
     - theme: alt
       text: API Examples
       link: /api-examples
