@@ -11,8 +11,8 @@ hero:
       text: Game
       link: /game
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Computer
+      link: /computer
     - theme: alt
       text: Math
       link: /math/linear-algebra.md
