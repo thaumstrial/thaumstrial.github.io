@@ -1,5 +1,5 @@
 # Trigonometry
-![](res/img.png)
+![](res/trigonometry-img-0.png)
 $$
 \cos(\alpha + \beta) = \frac{OE}{OC}
 $$

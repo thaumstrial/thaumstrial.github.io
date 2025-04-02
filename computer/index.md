@@ -2,6 +2,13 @@
 title: Computer
 ---
 # Toys about computer
+## Graphic
+rust-ascii-ray-tracing
+
+bevy + BVH + Möller–Trumbore + WGSL
+
+I eventually gave up on this project because I sadly discovered that ascii ray tracing is just low-resolution ray tracing with a mask-like effect, which is not interesting.
+
 ## Instruction Set Simulator
 
 [RV64GC ISS Rust](https://github.com/thaumstrial/rv64gc-iss-rust/tree/main)
