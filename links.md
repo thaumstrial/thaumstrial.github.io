@@ -1,5 +1,5 @@
-# 友情链接
-## 开发者
+# 友情链接 (Friendly Links)
+## 开发者 (Developers)
 [Dreamtowards](https://elytra.dev/): VoxelGameDev, Graphics, PL
 
 [awaわ](https://github.com/awalwashig) 

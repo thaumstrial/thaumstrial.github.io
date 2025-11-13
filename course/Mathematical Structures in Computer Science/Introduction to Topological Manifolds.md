@@ -585,3 +585,21 @@ Then
 
 Thus every pair $p\neq q$ is contained in disjoint open neighborhood, proving $X$ is Hausdorff.
 $$\square$$
+### Exercise 2.54
+- Suppose $X$ is a $0$-manifold.
+
+    For each $x\in X$, there exists an open $U_x\subseteq X$ and a homeomorphism $\varphi_x:U_x\to\{0\}$. Since $\varphi_x$ is a homeomorphism and $\{0\}$ is open in itself, $U_x=\varphi_x^{-1}(\{0\})$ is open. But $U_x$ contains exactly one point because $\varphi$ is injective. Hence $U_x=\{x\}$ is open. So $X$ is discrete.
+    
+    ---
+    
+    A $0$-manifold is second countable by definition. Therefore a discrete second-countable space must be countable, because a discrete space has the basis $\{\{x\}:x\in X\}$. A basis must be countable, so $X$ must be countable.
+    
+
+    
+    Thus $X$ is a countable discrete space.
+- Suppose $X$ is a discrete countable space.
+
+    In a discrete space, every point $x\in X$ has an open neighborhood $U_x=\{x\}$, which is open. Then the map $\{x\}\to\{0\},\quad x\mapsto 0$ is a homeomorphism onto $\{0\}$. So each point has a neighborhood homeomorphic to an open subset of $\mathbb{R}^0$. And a countable discrete space is second countable and Hausdorff.
+
+    Thus $X$ satisfies the definition of a $0$-manifold.
+$$\square$$
