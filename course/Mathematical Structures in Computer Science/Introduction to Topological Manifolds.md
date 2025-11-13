@@ -1,4 +1,4 @@
-Exercise solutions for John M. Lee Introduction to Topological Manifolds Second Edition
+Some exercise solutions for John M. Lee Introduction to Topological Manifolds Second Edition
 ## 2 Topological Spaces
 ### Exercise 2.4
 #### (a)
@@ -288,7 +288,7 @@ $$\square$$
 #### (a)
 - Suppose $x\in \text{Int}\;A$.
 
-    By definition of the interior, there exists and open set $U$ such that $x\in U \subseteq A$.
+    By definition of the interior, there exists an open set $U$ such that $x\in U \subseteq A$.
 
     Because $U$ is open and contains $x$, $U$ is a neighborhood $x$. Namely $x$ has a neighborhood contained in $A$.
 - Suppose $x$ has a neighborhood contained in $A$.
@@ -414,4 +414,174 @@ $$\square$$
         X\setminus A=\bigcup_{x\in X\setminus A}U_x
     $$
     is open because the union of open sets is open, implying $A$ is closed.
+$$\square$$
+### Exercise 2.10
+- Suppose $A$ is closed.
+
+    Let $x$ be a limit point of $A$. Assume that $x\notin A$ for some $x$. Then $x\in X\setminus A$, which is open. So there exists a neighborhood $U\subseteq X\setminus A$ of $x$. But then $U\cap A=\emptyset$, contradicting the definition of limit point. Hence $x\in A$. 
+- Suppose $A$ contains all of its limit points.
+
+    Let $x\in X\setminus A$. Since $x\notin A$ and $x$ is not a limit point of $A$, there exists an open neighborhood $U$ of $x$ such that $U\cap A=\emptyset$. Then $U\subseteq X\setminus A$, so every point of $X\setminus A$ has an open neighborhood contained in it. Hence $X\setminus A$ is open, and $A$ is closed.
+$$\square$$
+### Exercise 2.11
+- Suppose a subset $A\subseteq X$ is dense.
+
+    That is $\overline{A}=X$. Let $U\subseteq X$ be a nonempty open set. For any $x\in U$, since $x\in\overline{A}$, every neighborhood of $x$ intersects $A$ by Exercise 2.8 (d). In particular, $U$ itself is a neighborhood of $x$. Hence $U\cap A\neq\emptyset$. So $U$ contains a point of $A$.
+
+- Suppose every nonempty open subset of $X$ contains a point of $A$.
+    
+    Let $x\in X$. Every neighborhood $U$ of $x$ is open and nonempty, so $U$ contains a point of $A$. Thus every neighborhood of $x$ intersects $A$, meaning $x\in\overline{A}$. Thus $\overline{A}=X$.
+$$\square$$
+### Exercise 2.12
+Let $\mathcal{T}_d$ be the topology induced by the metric $d$ in a metric space.
+
+- Suppose $x_i\to x$ in the metric space.
+
+    For any open neighborhood $U$ of $x$ in the topology $\mathcal{T}_d$. By definition of $\mathcal{T}_d$, there exists $\varepsilon > 0$ such that the open ball 
+    $$
+    B_\varepsilon(x)=\{y\in X:d(x,y)<\varepsilon\}
+    $$
+    is contained in $U$. By metric convergence, there exists $N$ such that $i\ge N\implies d(x_i,x)<\varepsilon$. 
+    
+    Hence $x_i\in B_\varepsilon(x)\subseteq U$ for all $i\ge N$. Thus $x_i\to x$ in the topology sense.
+
+- Suppose $x_i\to x$ in the topology space.
+  
+    Fix $\varepsilon>0$. The ball $B_\varepsilon(x)$ is open in $\mathcal{T}_d$, hence a neighborhood of $x$. By topological convergence, there exists $N$ such that $i\ge N\implies x_i\in B_\varepsilon(x_i)$, namely $d(x_i, x)<\varepsilon$. Thus $x_i\to x$ in the metric sense.
+$$\square$$
+### Exercise 2.13
+- Suppose $x_i\to x$ in $X$.
+
+    Then $\{x\}$ is an open neighborhood of $x$ since $X$ is a discrete topology space. By the definition of convergence, there exists $N$ such that $i\geq N\implies x_i\in\{x\}$. That is $x_i=x$ for all $i\ge N$. Hence the sequence is eventually constant.
+
+- Suppose $(x_i)$ is eventually constant.
+    
+    That is there exists $N$ such that $x_i=x$ for all $i\ge N$. Then for any open set $U$ containing $x$, $x_i=x\in U$ holds for all $i\ge N$. Therefore $x_i\to x$.
+$$\square$$
+### Exercise 2.14
+Let $U$ be any open neighborhood of $x$. Since $x_i\to x$, by the definition of convergence, there exists $N$ such that $i\ge N\implies x_i\in U$. Each $x_i\in A$ by hypothesis, so $x_i\in A\cap U$ for all $i\ge N$. Thus every neighborhood of $x$ meets $A$. By Exercise 2.9 (d), it follows that $x\in\overline{A}$.
+$$\square$$
+### Exercise 2.16
+Let $f:X\to Y$ be a map between topological spaces.
+- Suppose $f$ is continuous.
+    
+    For any closed set $C\subseteq Y$. Then $Y\setminus C$ is open in $Y$. By continuity of $f$, the preimage $f^{-1}(Y\setminus C)$ is open in $X$.
+
+    By the preimage law 
+    $$
+        f^{-1}(Y\setminus C) = X\setminus f^{-1}(C)
+    $$
+    Since $X\setminus f^{-1}(C)$ is open, $f^{-1}(C)$ must be closed in $X$. Hence preimages of closed sets are closed.
+
+- Suppose the preimage of every closed subset is closed.
+
+    That is, for every closed set $C\subseteq Y$, the set $f^{-1}(C)$ is closed in $X$. Then $Y\setminus C$ is open in $Y$. Similarly
+    $$
+        f^{-1}(Y\setminus C) = X\setminus f^{-1}(C)
+    $$
+    Because $f^{-1}(C)$ is closed, its complement $X\setminus f^{-1}(C)$ is open.
+    Thus preimages of open sets are open, proving $f$ is continuous.
+$$\square$$
+### Exercise 2.18
+#### (a)
+Let $f(x)=c$ for some fixed $x\in Y$, and $U$ is any open set in $Y$. Then 
+$$
+f^{-1}(U)=\begin{cases}
+    X,\quad &c\in U \\
+    \emptyset,\quad &c\notin U
+\end{cases}
+$$
+Both $X$ and $\empty$ are open in $X$. Hence $f^{-1}(U)$ is open for every open set $U\subseteq Y$, proving $f$ is continuous.
+#### (b)
+
+For any open set $U\subseteq X$,
+$$
+\text{Id}_X^{-1}(U)=\{x\in X:\text{Id}_X(x)\in U\}=U
+$$
+Since $U$ is open and its preimage $U$ is open, $\text{Id}_X$ is continuous.
+#### (c)
+Let $U\subseteq Y$ be open, and define $f|_U:U\to Y$ by $f|_U(x)=f(x)$.
+
+Let $V\subseteq Y$ be open. By definition of preimage and restrictions:
+$$
+(f|_U)^{-1}(V)=\{x\in U:f(x)\in V\}=U\cap f^{-1}(V)
+$$
+Since $f$ is continuous, $f^{-1}(V)$ is open in $X$. Hence the intersection $U\cap f^{-1}(V)$ of two open sets is open in $U$ (by the subspace topology definition). Thus $f|_U$ is continuous.
+$$\square$$
+### Exercise 2.20
+- Reflexivity
+
+    For every topology space $X$, the identity map
+    $$
+    \text{id}_X: X\to X,\quad\text{id}_X(x)=x
+    $$
+    is bijective and continuous, and its inverse is itself (also continuous). Hence $X$ is homeomorphic to itself.
+
+- Symmetry
+
+    Suppose $f:X\to Y$ is a homeomorphism. Then $f$ is bijective, continuous, and $f^{-1}:X\to Y$ is continuous. Therefore $f^{-1}$ is a homeomorphism from $Y$ to $X$. Hence if $X$ is homeomorphic to $Y$, then $Y$ is homeomorphic to $X$.
+
+- Transitivity
+
+    Suppose $f:X\to Y$ and $g:Y\to Z$ are homeomorphisms. Then both $f$ and $g$ are bijective and continuous, with continuous inverses. The composition 
+    $$
+    g\circ f: X\to Z
+    $$
+    is bijective (since a composition of bijections is bijective), continuous (composition of continuous maps is continuous), and has continuous inverse
+    $$
+    (g\circ f) ^ {-1} = f^{-1}\circ g^{-1}
+    $$
+    Thus $g\circ f$ is a homeomorphism from $X$ to $Z$. Hence if $X$ is homeomorphic to $Y$ and $Y$ to $Z$, then $X$ is homeomorphic to $Z$.
+$$\square$$
+### Exercise 2.22
+Since $f$ is a homeomorphism, both $f$ and $f^{-1}$ are continuous. Because $f^{-1}$ is continuous, the preimage under $f^{-1}$ of any open set in $X$ is open in $Y$. That is $(f^{-1})^{-1}(U)=f(U)$, which means $f(U)$ is open in $Y$.
+
+---
+
+The next goal is to prove that $f|_U:U\to f(U)$ is a homeomorphism.
+
+- Bijectivity
+    
+    Since $f$ is bijective, the restriction $f|_U$ is bijective from $U$ onto $f(U)$.
+
+- Continuouity
+  
+  From Exercise 2.18 (c), the restriction of a continuous map to an open subset of its domain is continuous. Thus $f|_U$ is continuous.
+
+- Inverse Continuouity
+  
+  The inverse of $f|_U$ is the restriction of $f^{-1}$ to $f(U)$. That is $(f|_U)^{-1}=f^{-1}|_{f(u)}$. Since $f^{-1}$ is continuous and $f(U)$ is open in $Y$, apply Exercise 2.18 (c) again shows that the restriction $f^{-1}|_{f(u)}$ is continuous.
+
+Therefore, $f|_U$ is bijective, continuous, and has a continuous inverse.
+$$\square$$
+### Exercise 2.33
+Let $\mathcal{T}=\{\emptyset,Y\}$ be the trivial topology of $Y$, $(y_n)$ be any sequence of $Y$, and let $y\in Y$ be any point.
+
+In the trivial topology, the only open set containing $y$ is $Y$ it self. Since $Y$ also contains every term of the sequence, by definition, $y$ is the limit point of sequence $(y_n)$.
+$$\square$$
+### Exercise 2.35
+Let $p,q\in X,\quad p\neq q$. By assumption, there is a continuous function $f_p:X\to\mathbb{R}$ such that $f_p^{-1}(0)={p}$. Since $p\neq q$, $f_p(q)\neq 0$. 
+
+Let 
+$$
+\varepsilon=\frac{|f_p(q)|}{2} > 0
+$$
+
+Define the open sets,
+
+$$
+U=f_p^{-1}(-\varepsilon,\varepsilon),\quad V=f_p^{-1}(\mathbb{R}\setminus[-\varepsilon,\varepsilon])
+$$
+
+Both sets are open because $f_p$ is continuous. 
+
+Then
+
+- $p\in U$ because $f_p(p)=0\in (-\varepsilon,\varepsilon)$.
+
+- $q\in V$ because $|f_p(q)|>\varepsilon$.
+
+- $U\cap V=\emptyset$ by construction.
+
+Thus every pair $p\neq q$ is contained in disjoint open neighborhood, proving $X$ is Hausdorff.
 $$\square$$
