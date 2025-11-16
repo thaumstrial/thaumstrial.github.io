@@ -533,6 +533,25 @@ $$\square$$
     $$
     Thus $g\circ f$ is a homeomorphism from $X$ to $Z$. Hence if $X$ is homeomorphic to $Y$ and $Y$ to $Z$, then $X$ is homeomorphic to $Z$.
 $$\square$$
+### Exercise 2.21
+- Suppose $f$ is a homeomorphism.
+
+    Because $f$ is continuous, for any open set $V\in\mathcal{T}_2$, $f^{-1}(V)\in\mathcal{T}_1$.
+
+    Because $f^{-1}$ is continuous, for any $U\in\mathcal{T}_1$, $f(U)\in\mathcal{T}_2$.
+
+    Thus $f(U)\in\mathcal{T}_2$ if $U\in\mathcal{T}_1$ and $f^{-1}(V)\in\mathcal{T}_1$ if $V\in\mathcal{T}_2$. Therefore $f(\mathcal{T}_1)=\mathcal{T}_2$.
+- Suppose $f(\mathcal{T}_1)=\mathcal{T}_2$.
+
+    - Continuity of $f$.
+
+        Let $V\in\mathcal{T}_2$. Since $f(\mathcal{T}_1)=\mathcal{T}_2$, there exists $U\in\mathcal{T}_1$ such that $V=f(U)$. Then $f^{-1}(V)=f^{-1}(f(U))=U\in\mathcal{T}_1$. Thus $f$ is continuous.
+    - Continuity of $f^{-1}$.
+
+        Let $U\in\mathcal{T}_1$. Then $f(U)\in\mathcal{T}_2$. Since $(f^{-1})^{-1}(U)=f(U)\in\mathcal{T}_2$, $f^{-1}$ is continuous.
+    
+    Therefore $f$ is a homeomorphism.
+$$\square$$
 ### Exercise 2.22
 Since $f$ is a homeomorphism, both $f$ and $f^{-1}$ are continuous. Because $f^{-1}$ is continuous, the preimage under $f^{-1}$ of any open set in $X$ is open in $Y$. That is $(f^{-1})^{-1}(U)=f(U)$, which means $f(U)$ is open in $Y$.
 
@@ -553,6 +572,41 @@ The next goal is to prove that $f|_U:U\to f(U)$ is a homeomorphism.
   The inverse of $f|_U$ is the restriction of $f^{-1}$ to $f(U)$. That is $(f|_U)^{-1}=f^{-1}|_{f(u)}$. Since $f^{-1}$ is continuous and $f(U)$ is open in $Y$, apply Exercise 2.18 (c) again shows that the restriction $f^{-1}|_{f(u)}$ is continuous.
 
 Therefore, $f|_U$ is bijective, continuous, and has a continuous inverse.
+$$\square$$
+### Exercise 2.23
+By the definition of continuouity,
+$$
+\text{id}_X \text{ is continuous} \leftrightarrow \text{id}_X^{-1}(U)\in\mathcal{T}_1 \text{ for all } U\in\mathcal{T}_2.
+$$
+Because $\text{id}_X^{-1}(U)=U$, this becomes,
+$$
+U\in\mathcal{T}_1 \text{ for all } U\in\mathcal{T}_2
+$$
+Namely $\mathcal{T}_2\subseteq\mathcal{T}_1$, which is the definition of $\mathcal{T}_1$ being finer than $\mathcal{T}_2$.
+
+Thus
+$$
+\text{id}_X \text{ is continuous} \leftrightarrow \mathcal{T}_1 \text{ is finer than } \mathcal{T}_2.
+$$
+
+---
+
+By the definition of homeomorphism,
+
+$\text{id}_X$ is a homeomorphism if and only if $\text{id}_X$ is continuous, and its inverse is continuous.The second condition means that
+$$
+\text{id}_X^{-1}: (X,\mathcal{T}_2)\to (X,\mathcal{T}_1) \text{ is continuous } \leftrightarrow \mathcal{T}_2 \text{ is finer than } \mathcal{T}_1
+$$
+Combine with previous part,
+$$
+\text{id}_X \text{ is continuous } \leftrightarrow \mathcal{T}_1 \text{ is finer than } \mathcal{T}_2.
+$$
+Hence both $\mathcal{T}_1\subseteq\mathcal{T}_2$ and $\mathcal{T}_2\subseteq\mathcal{T}_1$ must hold.
+
+Thus,
+$$
+\text{id}_X \text{ is a homeomorphism } \leftrightarrow \mathcal{T}_1 = \mathcal{T}_2.
+$$
 $$\square$$
 ### Exercise 2.33
 Let $\mathcal{T}=\{\emptyset,Y\}$ be the trivial topology of $Y$, $(y_n)$ be any sequence of $Y$, and let $y\in Y$ be any point.
@@ -585,6 +639,46 @@ Then
 
 Thus every pair $p\neq q$ is contained in disjoint open neighborhood, proving $X$ is Hausdorff.
 $$\square$$
+### Exercise 2.40
+- Suppose $U\in\mathcal{T}$,
+
+    Let $p\in U$. Since $\mathcal{B}$ is a basis for $\mathcal{T}$, every open set (including $U$) is a union of basis elements. Therefore, there exists some basis element $B\in\mathcal{B}$ such that $p\in B\subseteq U$.
+- Suppose for each $p\in U$, there exists $B_p\in\mathcal{B}$ such that $p\in B_p\subseteq U$.
+
+    Then $U=\bigcup_{p\in U}B_p$. Each $B_p$ is open because basis elements are open. A union of open sets is open, so $U$ is open.
+$$\square$$
+### Exercise 2.42 (a)
+- Every cube $\mathbf{C}_s(x)$ is open.
+
+    By definition of open cube, it can be rewritten as
+    $$
+        \mathbf{C}_s(x)=\prod_{i=1}^n(x_i-s/2,x_i+s/2)
+    $$
+    a Cartesian product of open intervals. Since products of open intervals are exactly the usual Euclidean open boxes, each $\mathbf{C}_s(s)$ is an open subset of $\mathbb{R}^n$.
+
+- Every Euclidean open set is a union of cubes $\mathbf{C}_s(x)$.
+
+    Let $U\subseteq\mathbb{R}^n$ be an open set. Fix $p\in U$, there exists an open ball $B_r(p)\subseteq U,\quad r>0$ since $U$ is open. Consider the cube with side length $s=\frac{2r}{\sqrt{n}}$. Then for any $y\in \mathbf{C}_s(p)$,
+    $$
+    |y_i-p_i|<s/2
+    $$
+    $$
+    \|y-p\|_2<\sqrt{\sum_{i=1}^n(s/2)^2}=\sqrt{n}\frac{s}{2}=r
+    $$
+    Thus $\mathbf{C}_s(p)\subseteq B_r(p)\subseteq U$.
+    Therefore every point of $U$ is contained in some cube entirely contained in $U$. Hence any Euclidean open set is a union of members of $\mathcal{B}_1$.
+### Exercise 2.51
+Let $\mathcal{B}=\{B_n:n\in\mathbb{N}\}$ be a countable basis for the topology on $X$.
+
+Define
+$$
+D=\{x_n:B_n\neq\emptyset,x_n\in B_n\}
+$$
+Since $D$ is constructed by choosing one $x_n$ from each $B_n$, $D$ is countable.
+
+Let $U\subseteq X$ be any nonempty open set. Since $\mathcal{B}$ is a basis, there exists some $B_k\in\mathcal{B}$ such that $B_k\subseteq U$ and $B_k\neq\emptyset$. Then $x_k\in D\cap B_k$ and $D\cap B_k\subseteq D\cap U$. Hence every nonempty open set intersects $D$, by Exercise 2.11, $D$ is dense.
+
+Thus $D$ is a countable dense subset of $X$.
 ### Exercise 2.54
 - Suppose $X$ is a $0$-manifold.
 
