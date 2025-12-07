@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "7h4um"
   text: "Thaumstrial's DB"
-  tagline: Notes, Sketches, and Unfinished Ideas
+  tagline: 
   actions:
     - theme: brand
       text: Game
