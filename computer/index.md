@@ -4,12 +4,8 @@ title: Computer
 # Computer Related Toys
 
 ## Graphic
-rust-ascii-ray-tracing
 
-bevy + BVH + Möller–Trumbore + WGSL
-
-I eventually gave up on this project because I sadly discovered that ascii ray tracing is just low-resolution ray tracing with a mask-like effect, which is not interesting.
-
+[tui-raytracing](../game/tui-raytracing.md)
 ## Language
 ### Instruction Set Simulator
 

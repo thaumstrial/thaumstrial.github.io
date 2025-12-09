@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/fira_code.min.css"
+    />
+    <title>Ratzilla</title>
+    <style>
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        background-color: #121212;
+      }
+      pre {
+        font-family: "Fira Code", monospace;
+        font-size: 16px;
+        margin: 0px;
+      }
+    </style>
+  <link rel="modulepreload" href="./tui-raytracing-cebe6c10eba2063e.js" crossorigin="anonymous" integrity="sha384-FjodjhHowk0kaot5PlmBo2avDJizwqfxRdHALmdevRbhYEyDbIPp+MuVJnDWXymA"><link rel="preload" href="./tui-raytracing-cebe6c10eba2063e_bg.wasm" crossorigin="anonymous" integrity="sha384-/MMDG+oukTRb+5IY2hFv4Vh4evBpAW9vNDow8eIGCnnKQBsNKRQmLQB/jVgVMwix" as="fetch" type="application/wasm"></head>
+  <body>
+<script type="module">
+import init, * as bindings from './tui-raytracing-cebe6c10eba2063e.js';
+const wasm = await init({ module_or_path: './tui-raytracing-cebe6c10eba2063e_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script></body>
+</html>
