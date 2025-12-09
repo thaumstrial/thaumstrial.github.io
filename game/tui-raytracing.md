@@ -14,6 +14,12 @@ e: move down
 
 [Online wasm demo](https://thaumstrial.github.io/game/tui_raytracing_wasm/index.html)
 
+**TODO:**
+
+wgpu acceleration
+
+Spare Voxel Octree
+
 **Reference**:
 
 [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
