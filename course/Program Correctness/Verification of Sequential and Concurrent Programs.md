@@ -169,20 +169,81 @@ $$
 #### i
 $$
 \begin{align*}
-    \sigma \models \forall x: p
+    &\sigma \models \forall x: p\\
+    \implies& \quad\text{\{
+        definition of $\forall$
+    \}}\\
+    &\forall \tau: \sigma=\tau \text{ mod } x \implies \tau \models p\\
+    \implies& \quad\text{\{
+        let $\tau=\sigma[x:=d]$, where $d\in\mathcal{D}_T$
+    \}}\\
+    &\forall d\in\mathcal{D}_T :\sigma[x:=d]\models p
 \end{align*}
 $$
 $$
 \begin{align*}
-    &\forall d \in \mathcal{D}_T: \sigma[x:=d] \models p \\
-    \implies& \quad\text{\{Lemma 2.4 (ii)\}} \\
-    &\forall s\in\text{Expr}_T: \sigma\models p[x:=s] \\ 
+    &\forall d \in \mathcal{D}_T: \sigma[x:=d] \models p \\ 
     \implies& \quad\text{\{
-        Suppose $\forall \tau: \sigma=\tau \text{ mod } x$0
+        suppose for any $\tau$ such that $\sigma=\tau\textbf{ mod }x$
     \}}\\
     &\forall \tau: \sigma=\tau \text{ mod } x \implies \tau \models p
     \\
-    \implies& \quad\text{\{Definition of $\forall$\}} \\
+    \implies& \quad\text{\{definition of $\forall$\}} \\
     &\sigma \models \forall x: p
 \end{align*}
 $$
+#### ii
+Similar to the above.
+### 2.7
+#### i
+$$
+\begin{align*}
+    &\llbracket\neg p\rrbracket\\
+    =&\text{\{meaning of an assertion\}}\\
+    &\{\sigma\in\Sigma\mid\sigma\models \neg p\}\\
+    =&\text{\{definition of negation\}}\\
+    &\{\sigma\in\Sigma\mid\sigma\models p\}^c\\
+    =&\text{\{meaning of an assertion\}}\\
+    &\Sigma-\{\sigma\in\Sigma\mid\sigma\models p\}
+\end{align*}
+$$
+#### ii
+$$
+\begin{align*}
+    &\llbracket p\lor q\rrbracket\\
+    =&\text{\{meaning of an assertion\}}\\
+    &\{\sigma\mid\sigma\models p\lor q\}\\
+    =&\text{\{definition of disjunction\}}\\
+    &\{\sigma\mid(\sigma\models p)\lor (\sigma\models q)\}\\
+    =&\text{\{for any $\tau$ in the set above, $(\tau\models p)\lor(\tau\models q)$\}}\\
+    &\{\sigma\mid\sigma\models p\}\cup\{\sigma\mid\sigma\models q\}\\
+    =&\text{\{meaning of an assertion\}}\\
+    &\llbracket p\rrbracket\cup\llbracket 
+    q\rrbracket
+\end{align*}
+$$
+#### iii
+Similar to the above.
+#### iv
+$$
+\begin{align*}
+    &p\to q\\
+    \implies&\text{\{for any $\tau\models p$, apply $p\to q$\}}\\
+    &(\tau\models p)\to(\tau\models q)\\
+    \implies&\text{\{definition of implication\}}\\
+    &\tau\models p\to q\\
+    \implies&\text{\{summarize\}}\\
+    &\tau\in\{\sigma\mid\sigma\models p\}\to\tau\in\{\sigma\mid\sigma\models p\to q\}\\
+    \implies&\text{\{definition of subset\}}\\
+    &\{\sigma\mid\sigma\models p\}\subseteq\{\sigma\mid\sigma\models p\to q\}\\
+    \implies&\text{\{meaning of an assertion\}}\\
+    &\llbracket p \rrbracket\subseteq \llbracket q \rrbracket
+\end{align*}
+$$
+#### v
+Similar to the above.
+### 2.8
+#### i
+Since both $\sigma$ and $\tau$ agree on all variables in the expression $s$, the evaluated result must be the same.
+#### ii
+Since both $\sigma$ and $\tau$ agree on all free variables of $p$, the truth value of $p$ under $\sigma$ and $\tau$ must be the same. Therefore, $\sigma \models p$ if and only if $\tau \models p$.
