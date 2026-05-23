@@ -9,7 +9,7 @@
 
 [awaわ](https://github.com/awalwashig)
 
-[$\mathscr{F}$uruochen](https://blog.furuochen.com/)
+[$\mathscr{F}$uruochen](https://furuochen.com/)
 
 [Luna5ama](https://github.com/Luna5ama)
 
