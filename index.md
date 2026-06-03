@@ -1,5 +1,5 @@
 ---
-lastUpdated: 03-06-2026
+lastUpdated: 2026-06-03
 startYear: 2026
 ---
 [Miniscript VM in Miniscript](https://github.com/wh0wfg/greyscripts-p1an0/tree/main/MisMis): TAC virtual machine for [Miniscript](http://miniscript.org/) implemented in MiniScript itself. 
