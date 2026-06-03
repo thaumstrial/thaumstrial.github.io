@@ -25,10 +25,10 @@ $$
 #### iii
 $$
 \begin{align*}
-    & \exist x: (x \lt t \land (p \land (q \land r))) \lor s = u \\
-    \equiv& (\exist x: x \lt t \land (p \land (q \land r))) \lor s = u \\
-    \equiv& ((\exist x: x \lt t) \land (p \land (q \land r))) \lor s = u \\
-    \equiv& ((\exist x: x \lt t) \land p \land q \land r) \lor s = u
+    & \exists x: (x \lt t \land (p \land (q \land r))) \lor s = u \\
+    \equiv& (\exists x: x \lt t \land (p \land (q \land r))) \lor s = u \\
+    \equiv& ((\exists x: x \lt t) \land (p \land (q \land r))) \lor s = u \\
+    \equiv& ((\exists x: x \lt t) \land p \land q \land r) \lor s = u
 \end{align*}
 $$
 ### 2.2
@@ -131,10 +131,10 @@ Similar to the above.
 #### v
 $$
 \begin{align*}
-    & \sigma \models \exist x: (p \lor q) \\
+    & \sigma \models \exists x: (p \lor q) \\
     \iff& \sigma[x:= d] \models p \lor q \\
     \iff& (\sigma[x:= d] \models p) \lor (\sigma[x:= d] \models q) \\
-    \iff& \sigma \models \exist x: p \lor \exist x: q
+    \iff& \sigma \models \exists x: p \lor \exists x: q
 \end{align*}
 $$
 #### vi
@@ -151,18 +151,18 @@ Similar to the above.
 #### iii
 $$
 \begin{align*}
-    & (\exist x: z = x + 1)[z:= x + 2] \\
-    \equiv& (\exist x: z = x + 1)[x:= y][z:= x + 2] \\
-    \equiv& (\exist y: z = y + 1)[z:= x + 2] \\
-    \equiv& \exist y: x + 2 = y + 1
+    & (\exists x: z = x + 1)[z:= x + 2] \\
+    \equiv& (\exists x: z = x + 1)[x:= y][z:= x + 2] \\
+    \equiv& (\exists y: z = y + 1)[z:= x + 2] \\
+    \equiv& \exists y: x + 2 = y + 1
 \end{align*}
 $$
 #### iv
 $$
 \begin{align*}
-    & (\exist x: a[s] = x + 1)[a[s] := x + 2] \\
-    \equiv& (\exist y: a[s] = y + 1)[a[s] := x + 2] \\
-    \equiv& \exist y: x + 2 = y + 1
+    & (\exists x: a[s] = x + 1)[a[s] := x + 2] \\
+    \equiv& (\exists y: a[s] = y + 1)[a[s] := x + 2] \\
+    \equiv& \exists y: x + 2 = y + 1
 \end{align*}
 $$
 ### 2.6

@@ -3,19 +3,20 @@ import { generateSidebar } from 'vitepress-sidebar';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  appearance: true,
   title: "7h4um",
   description: "Thaumstrial's DB",
   markdown: {
     lineNumbers: true,
-    math: true
+    math: true,
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Notes', link: '/notes.md' },
       { text: 'About', link: '/about.md' },
       { text: 'Links', link: '/links.md' },
-      { text: 'Examples', link: '/markdown-examples' }
     ],
 
     sidebar: generateSidebar(),

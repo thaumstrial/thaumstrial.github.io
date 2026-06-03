@@ -1,3 +1,10 @@
-import DefaultTheme from 'vitepress/theme'
+import Layout from './Layout.vue'
+import NotFound from './NotFound.vue'
+import './custom.css'
+// import DefaultTheme from "vitepress/theme";
 
-export default DefaultTheme
+export default {
+    // extends: DefaultTheme,
+    Layout,
+    NotFound
+}
