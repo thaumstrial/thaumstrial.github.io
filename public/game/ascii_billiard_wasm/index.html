@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/firacode/6.2.0/fira_code.min.css" />
+  <!-- Added wasm-opt arguments here to fix the validation error -->
+  
+<script type="module">
+import init, * as bindings from './ascii-billiard-af4086b5c81548a1.js';
+const wasm = await init({ module_or_path: './ascii-billiard-af4086b5c81548a1_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+  <title>ASCII Billiard</title>
+  <style>
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #0a0a0a;
+    }
+    pre {
+      font-family: "Fira Code", monospace;
+      font-size: 16px;
+      margin: 0;
+      line-height: 1;
+    }
+  </style>
+<link rel="modulepreload" href="./ascii-billiard-af4086b5c81548a1.js" crossorigin="anonymous" integrity="sha384-Vnr/St2z3sPHJrLYwlnNke3IyUUm7HECwwpzch2J0ZORJMPsSrL+CuTXVSHMjbiZ"><link rel="preload" href="./ascii-billiard-af4086b5c81548a1_bg.wasm" crossorigin="anonymous" integrity="sha384-FemvPSFNIdNPbZA9AIyt4uQsRno6Bbncf8VcrzwRFFLTBdt6eBJdVdvHDH/d4+rr" as="fetch" type="application/wasm"></head>
+<body></body>
+</html>

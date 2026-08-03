@@ -1,5 +1,5 @@
 ---
-lastUpdated: 2026-06-03
+lastUpdated: 2026-08-03
 startYear: 2026
 ---
 [Miniscript VM in Miniscript](https://github.com/wh0wfg/greyscripts-p1an0/tree/main/MisMis): TAC virtual machine for [Miniscript](http://miniscript.org/) implemented in MiniScript itself. 
@@ -15,6 +15,8 @@ startYear: 2026
 [Asciiho](game/asciiho.md): 2D top-down shooter game.
 
 [Tui Raytracing](game/tui-raytracing.md): Ray tracer in your terminal.
+
+[AsCII Billiard](game/ascii-billiard.md): Play ASCII style billiard in your terminal.
 
 [Minecraft Mod: Create-Ratatouille](https://www.curseforge.com/minecraft/mc-mods/create-ratatouille),
 [Create: Ratatouille Fried Delights](https://www.curseforge.com/minecraft/mc-mods/create-ratatouille-fried-delights): Create addons for Minecraft that adds agriculture and food-processing systems.
