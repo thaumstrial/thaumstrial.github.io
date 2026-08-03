@@ -1,5 +1,7 @@
 # ASCII Billiard
 
+![](https://img.itch.zone/aW1nLzI5MDM3OTkxLnBuZw==/original/msrpeX.png)
+
 [online wasm demo](https://thaumstrial.github.io/game/ascii_billiard_wasm/index.html)
 
 If the UI appears misaligned or the entire table is not displayed correctly, use Ctrl + Mouse Wheel to resize the browser window until it looks correct,
