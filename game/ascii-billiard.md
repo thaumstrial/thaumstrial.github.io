@@ -1,6 +1,6 @@
 # ASCII Billiard
 
-[online wasm demo](https://thaumstrial.github.io/game/ascii_billiard/index.html)
+[online wasm demo](https://thaumstrial.github.io/game/ascii_billiard_wasm/index.html)
 
 If the UI appears misaligned or the entire table is not displayed correctly, use Ctrl + Mouse Wheel to resize the browser window until it looks correct,
 then refresh the page multiple times before starting a new game. Alternatively, you can download the native version from https://or4ng31.itch.io/ascii-billiard.

@@ -16,7 +16,7 @@ startYear: 2026
 
 [Tui Raytracing](game/tui-raytracing.md): Ray tracer in your terminal.
 
-[AsCII Billiard](game/ascii-billiard.md): Play ASCII style billiard in your terminal.
+[ASCII Billiard](game/ascii-billiard.md): Play ASCII style billiard in your terminal.
 
 [Minecraft Mod: Create-Ratatouille](https://www.curseforge.com/minecraft/mc-mods/create-ratatouille),
 [Create: Ratatouille Fried Delights](https://www.curseforge.com/minecraft/mc-mods/create-ratatouille-fried-delights): Create addons for Minecraft that adds agriculture and food-processing systems.
