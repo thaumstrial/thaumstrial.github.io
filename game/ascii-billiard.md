@@ -1,6 +1,6 @@
 # ASCII Billiard
 
-![](https://img.itch.zone/aW1nLzI5MDM3OTkxLnBuZw==/original/msrpeX.png)
+![ascii-billiard-example.png](ascii-billiard-example.png)
 
 # [Online wasm demo](https://thaumstrial.github.io/game/ascii_billiard_wasm/index.html)
 
